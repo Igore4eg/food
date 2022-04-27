@@ -284,6 +284,13 @@ window.addEventListener('DOMContentLoaded', function() {
         }, 4000);
 
     }
+
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
+
+
+
     // fetch('https://jsonplaceholder.typicode.com/posts', {
     //     method: "POST",
     //     body: JSON.stringify({name: 'Alex'}),
