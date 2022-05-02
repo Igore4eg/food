@@ -345,19 +345,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
     let offset = 0;
     let slideIndex = 1;
 
-    const slides = document.querySelectorAll('.offer__slide'),
-        slider = document.querySelector('.offer__slider'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+    const slides = document.querySelectorAll(slide),
+        slider = document.querySelector(container),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter),
+        slidesWrapper = document.querySelector(wrapper),
         width = window.getComputedStyle(slidesWrapper).width,
-        slidesField = document.querySelector('.offer__slider-inner');
+        slidesField = document.querySelector(field);
 
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
@@ -382,38 +382,12 @@ function slider() {
     const indicators = document.createElement('ol'),
           dots = [];
     indicators.classList.add('carousel-indicators');
-    indicators.style.cssText = `
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 15;
-        display: flex;
-        justify-content: center;
-        margin-right: 15%;
-        margin-left: 15%;
-        list-style: none;
-    `; // Если хотите - добавьте в стили, но иногда у нас нет доступа к стилям
     slider.append(indicators);
 
     for (let i = 0; i < slides.length; i++) {
         const dot = document.createElement('li');
         dot.setAttribute('data-slide-to', i + 1);
-        dot.style.cssText = `
-            box-sizing: content-box;
-            flex: 0 1 auto;
-            width: 30px;
-            height: 6px;
-            margin-right: 3px;
-            margin-left: 3px;
-            cursor: pointer;
-            background-color: #fff;
-            background-clip: padding-box;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            opacity: .5;
-            transition: opacity .6s ease;
-        `;
+        dot.classList.add('dot');
         if (i == 0) {
             dot.style.opacity = 1;
         }
@@ -509,10 +483,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function tabs() {
-    let tabs = document.querySelectorAll('.tabheader__item'),
-		tabsContent = document.querySelectorAll('.tabcontent'),
-		tabsParent = document.querySelector('.tabheader__items');
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass) {
+    let tabs = document.querySelectorAll(tabsSelector),
+		tabsContent = document.querySelectorAll(tabsContentSelector),
+		tabsParent = document.querySelector(tabsParentSelector);
 
     function hideTabContent() {
         
@@ -522,14 +496,14 @@ function tabs() {
         });
 
         tabs.forEach(item => {
-            item.classList.remove('tabheader__item_active');
+            item.classList.remove(activeClass);
         });
     }
 
     function showTabContent(i = 0) {
         tabsContent[i].classList.add('show', 'fade');
         tabsContent[i].classList.remove('hide');
-        tabs[i].classList.add('tabheader__item_active');
+        tabs[i].classList.add(activeClass);
     }
 
     hideTabContent();
@@ -537,7 +511,7 @@ function tabs() {
 
     tabsParent.addEventListener('click', function(event) {
         const target = event.target;
-        if(target && target.classList.contains('tabheader__item')) {
+        if(target && target.classList.contains(tabsSelector.slice(1))) {
             tabs.forEach((item, i) => {
                 if (target == item) {
                     hideTabContent();
@@ -562,9 +536,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function timer() {
-    const deadline = '2022-06-11';
-
+function timer(id, deadline) {
+    
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
             days = Math.floor( (t/(1000*60*60*24)) ),
@@ -614,7 +587,7 @@ function timer() {
         }
     }
 
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
@@ -740,14 +713,24 @@ __webpack_require__.r(__webpack_exports__);
 
 window.addEventListener('DOMContentLoaded', () => {
     const modalTimerId = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('.modal', modalTimerId), 300000);
+    const deadline = '2022-06-11';
 
     (0,_modules_forms__WEBPACK_IMPORTED_MODULE_6__["default"])('form', modalTimerId);
-    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal', modalTimerId);
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', deadline);
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
     (0,_modules_calculator__WEBPACK_IMPORTED_MODULE_4__["default"])();
-    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__["default"])();
+    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__["default"])({
+        container: '.offer__slider',
+        nextArrow: '.offer__slider-next',
+        prevArrow: '.offer__slider-prev',
+        slide: '.offer__slide',
+        totalCounter: '#total',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner',
+    });
 });
 })();
 

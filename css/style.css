@@ -624,8 +624,6 @@ a {
         opacity: 1;
     }
 }
-
-
 .carousel-indicators {
     position: absolute;
     right: 0;
@@ -638,7 +636,6 @@ a {
     margin-left: 15%;
     list-style: none;
 }
-
 .dot {
     box-sizing: content-box;
     flex: 0 1 auto;
